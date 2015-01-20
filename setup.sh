@@ -58,7 +58,7 @@ BOOTSTRAP_DIR="$HOME/bootstrap"
 if [ ! -d $BOOTSTRAP_DIR ]
 then
     echo "Cloning bootstrap cookbook"
-    git clone "ssh://$USRNAME@precog1.precognox.com:10321/opt/git/teszt2.git" $BOOTSTRAP_DIR
+    git clone "ssh://$USRNAME@precog1.precognox.com:10321/opt/git/bootstrap.git" $BOOTSTRAP_DIR
 else
     echo "Updating bootstrap cookbook"
     CURRENT_DIR=`pwd`
