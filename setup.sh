@@ -1,7 +1,7 @@
 #!/bin/bash
 
 
-export CHEF_DK_VER="0.3.5"
+export CHEF_DK_VER="0.3.6"
 
 echo "Bootstrapping developer machine..."
 
@@ -10,11 +10,11 @@ RELEASE=`cat /proc/version`
 
 if [[ $RELEASE == *"Debian"* ]]
 then
-  CHEF_DK_RELEASE="ubuntu/12.04"
+  CHEF_DK_RELEASE="debian/6"
 
 elif [[ $RELEASE == *"Ubuntu"* ]]
 then
-  CHEF_DK_RELEASE="debian/6"
+  CHEF_DK_RELEASE="ubuntu/12.04"
 fi
 
 
@@ -28,7 +28,7 @@ then
 
     if [ ! -f /tmp/$CHEF_DK_DEB ]
     then
-    wget "https://opscode-omnibus-packages.s3.amazonaws.com/ubuntu/$CHEF_DK_RELEASE/$CHEF_DK_DEB" -O "/tmp/$CHEF_DK_DEB"
+    wget "https://opscode-omnibus-packages.s3.amazonaws.com/$CHEF_DK_RELEASE/x86_64/$CHEF_DK_DEB" -O "/tmp/$CHEF_DK_DEB"
     fi
     dpkg -i /tmp/$CHEF_DK_DEB
 else
