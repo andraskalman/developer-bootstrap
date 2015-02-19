@@ -1,7 +1,7 @@
 #!/bin/bash
 
 
-export CHEF_DK_VER="0.3.6"
+export CHEF_DK_VER="0.4.0"
 
 echo "Bootstrapping developer machine..."
 
@@ -37,21 +37,32 @@ fi
 
 apt-get install -y git
 
-echo -n "Enter your name and press [ENTER]: "
-read USRNAME
-echo -n "Enter your password and press [ENTER] (this will be set for your login account on this PC): "
-# Create a variable which executes the terminal environment with standard values
-terminal_original=`stty -g`
-# Stop the terminal showing user input
-stty -echo
-# Read your password 
-read CLEAR_PASSWD
-# Enable terminal output again
-stty $terminal_original
+CHEF_RUN_LIST="developer::default"
 
-PASSWD=`openssl passwd -1 "$CLEAR_PASSWD"`
-echo
+if [[ -z $1 || $1 != "--skip-user-creation" ]]; then
 
+    echo -n "Enter your name and press [ENTER]: "
+    read USRNAME
+    echo -n "Enter your password and press [ENTER] (this will be set for your login account on this PC): "
+    # Create a variable which executes the terminal environment with standard values
+    terminal_original=`stty -g`
+    # Stop the terminal showing user input
+    stty -echo
+    # Read your password 
+    read CLEAR_PASSWD
+    # Enable terminal output again
+    stty $terminal_original
+
+    PASSWD=`openssl passwd -1 "$CLEAR_PASSWD"`
+    echo
+
+    export USRNAME
+    export PASSWD
+
+    CHEF_RUN_LIST="developer::user,$CHEF_RUN_LIST"
+else
+    echo "Skipping user creation"
+fi
 
 BOOTSTRAP_DIR="$HOME/bootstrap"
 
@@ -82,10 +93,7 @@ cache_options( :path => "#{ENV['HOME']}/.chef/checksums" )
 cookbook_path            ["$BOOTSTRAP_DIR/cookbooks", "$BERKS_COOKBOOK_DIR"]
 EOL
 
-export USRNAME
-export PASSWD
-
-chef-solo -c $SOLO_CFG_FILE -o 'developer::default'
+chef-solo -c $SOLO_CFG_FILE -o $CHEF_RUN_LIST
 
 echo "Finished bootstrapping"
 
