@@ -74,7 +74,7 @@ else
     echo "Updating bootstrap cookbook"
     CURRENT_DIR=`pwd`
     cd $BOOTSTRAP_DIR
-#    git pull
+    git pull
     cd $CURRENT_DIR
 fi
 
