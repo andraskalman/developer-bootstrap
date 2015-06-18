@@ -1,7 +1,7 @@
 #!/bin/bash
 
 
-export CHEF_DK_VER="0.4.0"
+export CHEF_DK_VER="0.6.2"
 
 echo "Bootstrapping developer machine..."
 
